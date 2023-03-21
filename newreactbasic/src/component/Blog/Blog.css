@@ -30,3 +30,15 @@
     padding: 20px;
     margin-top: 20px;
 }
+
+.modal p {
+    padding: 5px 0;
+}
+
+.modal button {
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: gray;
+    border: none;
+}

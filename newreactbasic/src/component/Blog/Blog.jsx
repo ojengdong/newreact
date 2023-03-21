@@ -5,14 +5,16 @@ import { useState } from 'react'
 const Blog = (props) => {
     let [title,setTitle] = useState([
         "Title1",
-        "Title2",
-        "Title3",
+        "Title22",
+        "Title333",
     ])
 
-    let [name,setName] = useState(["여상현1", "여상현2", "여상현3",])
-   
+    let [name,setName] = useState(["여상현1", "여상현22", "여상현333",])
+    // 모달창을 띄우기 위한 상태값
+    let [modal,setModal] = useState(false)
+    // 모달창에 표시될 제목 글의 인덱스
+    let [modalTitle, setModalTtile] = useState(0)
 
-   
   return (
     <div>
         <div className='nav'>
@@ -20,35 +22,40 @@ const Blog = (props) => {
         </div>
 
         {
-            title.map((item, i,index)=>{
+            title.map((item, i)=>{
+                    
                 return (
-                    <div className='list'>
+                    <div key={i} className='list' onClick={()=>{
+                        if(modal && modalTitle === i){
+                            setModal(false);
+                        }else {
+                            setModal(true);
+                            setModalTtile(i);
+                        }
+                    }}>
                         <h4>{item}</h4>
                         <p>안녕하세요 저는 {name[i]}입니다.</p>
-                        <button onClick={()=>{
+                        <button  onClick={()=>{
                             const copy = [...title]
-                            copy.splice(index, 1)
+                            copy.splice(item, 1)
                             setTitle(copy)
                         }}>글 삭제</button>
-                        <Modal/>
                     </div>
-                    
                 )
-                
             })
         }
-        
+        {modal && <Modal modalTitle={modalTitle} title={title} closeModal={()=>setModal(false)}/>}
     </div>
-
+        
   )
 }
 
-function Modal() {
+function Modal(props) {
     return (
         <div className='modal'>
-            <h4>Title</h4>
+            <h4>{props.title[props.modalTitle]}</h4>
             <p>Content</p>
-            <button >닫기</button>
+            <button onClick={props.closeModal}>닫기</button>
         </div>
     )
 }
